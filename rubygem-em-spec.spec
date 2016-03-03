@@ -1,0 +1,95 @@
+# Generated from em-spec-0.2.6.gem by gem2rpm -*- rpm-spec -*-
+%global gem_name em-spec
+
+Name: rubygem-%{gem_name}
+Version: 0.2.7
+Release: 2%{?dist}
+Summary: BDD for Ruby/EventMachine
+License: MIT
+URL: http://github.com/joshbuddy/em-spec
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+BuildRequires: rubygem(rspec-core)
+BuildRequires: rubygem(eventmachine)
+BuildRequires: rubygem(bacon)
+BuildRequires: ruby(release)
+BuildRequires: rubygems-devel
+BuildRequires: ruby
+BuildArch: noarch
+
+%if 0%{?rhel} == 7
+Provides: rubygem(%{gem_name}) = %{version}
+Requires: rubygem(eventmachine)
+%endif
+
+%description
+Simple BDD API for testing asynchronous Ruby/EventMachine code.
+
+
+%package doc
+Summary: Documentation for %{name}
+Group: Documentation
+Requires: %{name} = %{version}-%{release}
+
+%description doc
+Documentation for %{name}.
+
+%prep
+gem unpack %{SOURCE0}
+
+%setup -q -D -T -n  %{gem_name}-%{version}
+
+gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+
+%build
+# Create the gem as gem install only works on a gem file
+gem build %{gem_name}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
+
+%install
+mkdir -p %{buildroot}%{gem_dir}
+cp -a .%{gem_dir}/* \
+        %{buildroot}%{gem_dir}/
+
+
+%check
+pushd %{buildroot}%{gem_instdir}
+# There are two outstanding issues upstream regarding failing unit tests
+# These appare to have never been addressed
+# https://github.com/joshbuddy/em-spec/issues/16
+#rspec -Ilib spec
+popd
+
+%files
+%dir %{gem_instdir}
+%exclude %{gem_instdir}/.gitignore
+%exclude %{gem_cache}
+%license %{gem_instdir}/LICENSE
+%exclude %{gem_instdir}/.rspec
+%{gem_instdir}/Guardfile
+%{gem_libdir}
+%{gem_spec}
+
+%files doc
+%doc %{gem_docdir}
+%{gem_instdir}/Gemfile
+%{gem_instdir}/Gemfile.lock
+%doc %{gem_instdir}/README.md
+%doc %{gem_instdir}/CHANGELOG.md
+%{gem_instdir}/Rakefile
+%{gem_instdir}/em-spec.gemspec
+%{gem_instdir}/spec
+%{gem_instdir}/test
+
+%changelog
+* Thu Mar 03 2016 Greg Hellings <greg.hellings@gmail.com> - 0.2.7-2
+- Import and final review changes
+
+* Sat Feb 27 2016 Greg Hellings <greg.hellings@gmail.com> - 0.2.7-1
+- Updated to upstream version
+- Reacted to package review comments
+
+* Mon Feb 08 2016 Greg Hellings <greg.hellings@gmail.com> - 0.2.6-1
+- Initial package
