@@ -27,7 +27,6 @@ Simple BDD API for testing asynchronous Ruby/EventMachine code.
 
 %package doc
 Summary: Documentation for %{name}
-Group: Documentation
 Requires: %{name} = %{version}-%{release}
 
 %description doc
