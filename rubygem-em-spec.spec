@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.2.7
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: BDD for Ruby/EventMachine
 License: MIT
 URL: http://github.com/joshbuddy/em-spec
@@ -83,6 +83,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
