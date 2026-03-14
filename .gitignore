@@ -1,3 +1,5 @@
 /em-spec-0.2.7.gem
 *.src.rpm
 results_rubygem-em-spec
+/noarch
+/.build*
